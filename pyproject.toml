@@ -9,6 +9,9 @@ dev = [
     "pytest>=8.0",
 ]
 
+[tool.setuptools]
+packages = ["adapters", "client", "clocks", "consts", "facades", "interfaces", "services"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
