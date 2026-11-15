@@ -1,11 +1,26 @@
+from datetime import datetime
+
+from adapters import DigitalClockAdapter
 from clocks import AnalogClock
+from facades import ClockFacade
+from services import ClockFormatter, ClockHistory
 
 
 def main() -> None:
-    clock = AnalogClock()
-    print("Исходный объект AnalogClock создан.")
-    print(f"Дата по умолчанию: {clock.get_year():04d}-{clock.get_month():02d}-{clock.get_day():02d}")
-    print("После выполнения задания клиентский код должен работать через ClockFacade.")
+    facade = ClockFacade(
+        adapter=DigitalClockAdapter(AnalogClock()),
+        formatter=ClockFormatter(),
+        history=ClockHistory(),
+    )
+
+    facade.set_date_time(datetime(2026, 9, 24, 15, 30, 45))
+    print(facade.get_formatted())
+
+    facade.set_date_time(datetime(2026, 9, 25, 0, 0, 0))
+    print(facade.get_formatted())
+    print("История установленных значений:")
+    for value in facade.get_history():
+        print(f"  {value}")
 
 
 if __name__ == "__main__":
